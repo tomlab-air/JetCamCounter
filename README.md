@@ -113,8 +113,8 @@ python3 main.py input_video.mp4
 ```
 
 実行時に生成されるファイル:  
-- 出力動画: result/<base_name>_<mode>_<タイムスタンプ>.mp4  
-- カウントログ: result/<base_name>_<mode>_count_log_<タイムスタンプ>.txt
+- 出力動画: result/<base_name>\_\<mode>\_<タイムスタンプ>.mp4  
+- カウントログ: result/<base_name>\_\<mode>_count_log\_\<タイムスタンプ>.txt
 
 <br/>
 
