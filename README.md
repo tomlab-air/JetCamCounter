@@ -67,7 +67,7 @@ JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性�
 
 ### 3. Python 依存ライブラリのインストール
 ```bash
-sudo apt install python3-opencv
+sudo apt install -y libopencv-dev python3-opencv
 pip3 install numpy
 ```
 
