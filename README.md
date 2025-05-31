@@ -8,6 +8,7 @@ JetCamCounter は、NVIDIA Jetson 上で動作するリアルタイム物体検�
 
 ![person2AI2](https://github.com/user-attachments/assets/d2ac3db8-9a73-4508-bd0b-80800ccd0235)
 
+<br/>
 
 ## 📹 動作デモ
 
@@ -17,6 +18,7 @@ https://github.com/user-attachments/assets/a51f9eac-a9ab-4847-a90a-51b164dc3cf2
 - カメラ映像・動画ファイルの両方に対応
 - 結果は動画ファイルおよびテキストファイルに出力し、後から確認可能
 
+<br/>
 
 ## 🚀 背景と目的
 
@@ -28,6 +30,7 @@ https://github.com/user-attachments/assets/a51f9eac-a9ab-4847-a90a-51b164dc3cf2
 
 JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性を活かし、**カメラ映像をリアルタイムに処理**して自動的にカウントする仕組みを構築。省電力で小型な Jetson により、**屋外でも長時間の稼働が可能**です。
 
+<br/>
 
 ## 🔍 特長
 
@@ -37,6 +40,7 @@ JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性�
 - ✅ トラッキングにより通過数をカウント
 - ✅ 任意のオブジェクトクラス（車・人など）に対応
 
+<br/>
 
 ## 🧠 活用例
 
@@ -46,6 +50,7 @@ JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性�
 - 🧍‍♂️ **行列の長さ推定**（待機人数のモニタリング）
 - 🔐 **防犯用途**（不審者の侵入検出）
 
+<br/>
 
 ## ⚙️ セットアップ手順（Jetson用）
 
@@ -54,30 +59,33 @@ JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性�
 以下のページなどを参考に、Jetsonを初期セットアップします。  
 [Getting Started with AI on Jetson Nano](https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+S-RX-02+V2)
 
+### 2. Jetson 用 PyTorch のインストール
+以下のページに従い、Jetson 用 PyTorch をインストールします。  
+[PyTorch for Jetson](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048)
 
-### 2. Python 依存ライブラリのインストール
+
+### 3. Python 依存ライブラリのインストール
 ```bash
 sudo apt install python3-opencv
 pip3 install numpy
 ```
 
-### 3. darknet のビルド（YOLOv4-tiny）
+### 4. darknet のビルド（YOLOv4-tiny）
 ```bash
 git clone https://github.com/AlexeyAB/darknet.git
 cd darknet
 # Makefile を編集（GPU=1, CUDNN=1, OPENCV=1 などを有効化）
+sed -i 's/GPU=0/GPU=1/' Makefile
+sed -i 's/CUDNN=0/CUDNN=1/' Makefile
+sed -i 's/CUDNN_HALF=0/CUDNN_HALF=1/' Makefile
+sed -i 's/OPENCV=0/OPENCV=1/' Makefile
+sed -i 's/LIBSO=0/LIBSO=1/' Makefile
+sed -i 's/^ARCH=.*/ARCH= -gencode arch=compute_53,code=[sm_53,compute_53]/' Makefile
+# make
 make -j$(nproc)
 ```
 
-Makefile 内で以下を確認してください：
-```bash
-GPU=1
-CUDNN=1
-OPENCV=1
-LIBSO=1
-```
-
-### 4. 重み・設定ファイルのダウンロード
+### 5. 重み・設定ファイルのダウンロード
 ```bash
 # cfg ファイルと学習済み重みをダウンロード
 wget https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-tiny.cfg -P cfg/
@@ -85,31 +93,31 @@ wget https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/coco.data -P 
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights
 ```
 
-### 5. darknet.py をプロジェクトにコピー
-darknet.py（Python バインディング）を使って YOLO を Python から呼び出します。
-darknet リポジトリ内にある darknet.py をプロジェクトフォルダにコピーしてください。
+### 6. main.py を darknet フォルダにコピー
+main.py を darknet フォルダにコピーします。
 
+<br/>
 
 ## ▶️ 実行方法
 以下のコマンドで JetCamCounter を実行できます。
 
 ### カメラ入力で実行
 ```bash
-python3 jetcam_counter.py
+python3 main.py
 ```
 
 ### 動画ファイル入力で実行
 ```bash
-python3 jetcam_counter.py input_video.mp4
+python3 main.py input_video.mp4
 ```
 
 実行時に生成されるファイル:  
-出力動画: result/<base_name>_<mode>_<タイムスタンプ>.mp4  
-カウントログ: result/<base_name>_<mode>_count_log_<タイムスタンプ>.txt
+- 出力動画: result/<base_name>_<mode>_<タイムスタンプ>.mp4  
+- カウントログ: result/<base_name>_<mode>_count_log_<タイムスタンプ>.txt
 
+<br/>
 
 ## 💡 今後の展望
-- カウント結果のCSV出力対応
-- Web UI やダッシュボードとの連携
-- クラス別統計表示の強化
+- 結果ファイルをサーバへ自動アップロード
 - 夜間・赤外線カメラ対応
+- 検知精度向上
