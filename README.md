@@ -6,6 +6,8 @@ JetCamCounter は、NVIDIA Jetson 上で動作するリアルタイム物体検�
 
 交通量調査をAIで代替することを想定しています。他の用途（入退場管理、人数把握、防犯、店舗分析など）にも応用可能です。
 
+![person2AI](https://github.com/user-attachments/assets/08601f43-cd14-4a44-8b44-3e5240ce2a76)
+
 
 ## 📹 動作デモ
 
