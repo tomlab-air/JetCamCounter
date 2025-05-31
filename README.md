@@ -4,13 +4,11 @@ JetCamCounter は、NVIDIA Jetson 上で動作するリアルタイム物体検�
 
 主に交通量調査をAIで代替することを想定しています。他の用途（入退場管理、人数把握、防犯、店舗分析など）にも応用可能です。
 
----
 
 ## 📹 動作デモ
 
 [![Watch on YouTube](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID)
 
----
 
 ## 🚀 背景と目的
 
@@ -22,7 +20,6 @@ JetCamCounter は、NVIDIA Jetson 上で動作するリアルタイム物体検�
 
 JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性を活かし、**カメラ映像をリアルタイムに処理**して自動的にカウントする仕組みを構築。省電力で小型な Jetson により、**屋外でも長時間の稼働が可能**です。
 
----
 
 ## 🔍 特長
 
@@ -32,7 +29,6 @@ JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性�
 - ✅ トラッキングにより通過数をカウント
 - ✅ 任意のオブジェクトクラス（車・人など）に対応
 
----
 
 ## 🧠 活用例
 
@@ -42,7 +38,6 @@ JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性�
 - 🧍‍♂️ **行列の長さ推定**（待機人数のモニタリング）
 - 🔐 **防犯用途**（不審者の侵入検出）
 
----
 
 ## ⚙️ セットアップ手順（Jetson用）
 
@@ -91,7 +86,6 @@ wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/y
 darknet.py（Python バインディング）を使って YOLO を Python から呼び出します。
 darknet リポジトリ内にある darknet.py をプロジェクトフォルダにコピーしてください。
 
----
 
 ## ▶️ 実行方法
 以下のコマンドで JetCamCounter を実行できます。
@@ -110,7 +104,6 @@ python3 jetcam_counter.py input_video.mp4
 出力動画: result/<base_name>_<mode>_<タイムスタンプ>.mp4  
 カウントログ: result/<base_name>_<mode>_count_log_<タイムスタンプ>.txt
 
----
 
 ## 💡 今後の展望
 - カウント結果のCSV出力対応
