@@ -1,1 +1,119 @@
 # JetCamCounter
+
+JetCamCounter は、NVIDIA Jetson 上で動作するリアルタイム物体検出＆カウントシステムです。YOLOv4-tiny を使って、カメラまたは動画ファイルから人や車などの物体を検出・トラッキングし、通過数を自動でカウントします。
+
+主に交通量調査を想定していますが、他の用途（入退場管理、人数把握、防犯、店舗分析など）にも応用可能です。
+
+---
+
+## 📹 動作デモ
+
+[![Watch on YouTube](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID)
+
+---
+
+## 🚀 背景と目的
+
+交通量調査はこれまで人手で行うことが一般的でしたが、以下の課題がありました。
+
+- 長時間にわたる作業が必要
+- 人的ミスが発生する可能性がある
+- データのデジタル化に手間がかかる
+
+JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性を活かし、**カメラ映像をリアルタイムに処理**して自動的にカウントする仕組みを構築。省電力で小型な Jetson により、**屋外でも長時間の稼働が可能**です。
+
+---
+
+## 🔍 特長
+
+- ✅ Jetson 対応・低電力で高効率
+- ✅ YOLOv4-tiny による高速かつ高精度な検出
+- ✅ カメラまたは動画ファイルを入力に切り替え可能
+- ✅ トラッキングにより通過数を正確にカウント
+- ✅ 任意のオブジェクトクラス（車・人など）に対応
+
+---
+
+## 🧠 活用例
+
+- 🚗 **交通量調査**（交差点の車両カウント）
+- 🏢 **入退場管理**（オフィス・施設での人数把握）
+- 🛍 **小売店舗分析**（来店客の動向分析）
+- 🧍‍♂️ **行列の長さ推定**（待機人数のモニタリング）
+- 🔐 **防犯用途**（不審者の侵入検出）
+
+---
+
+## ⚙️ セットアップ手順（Jetson用）
+
+以下は Jetson Orin Nano で確認済みです。
+
+### 1. Jetson 初期セットアップ
+
+JetPack SDKをインストールし、Ubuntuが起動する状態にしてください。
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
+
+### 2. Python 依存ライブラリのインストール
+```bash
+sudo apt install python3-opencv
+pip3 install numpy
+```
+
+### 3. darknet のビルド（YOLOv4-tiny）
+```bash
+git clone https://github.com/AlexeyAB/darknet.git
+cd darknet
+# Makefile を編集（GPU=1, CUDNN=1, OPENCV=1 などを有効化）
+make -j$(nproc)
+```
+
+Makefile 内で以下を確認してください：
+```bash
+GPU=1
+CUDNN=1
+OPENCV=1
+LIBSO=1
+```
+
+### 4. 重み・設定ファイルのダウンロード
+```bash
+# cfg ファイルと学習済み重みをダウンロード
+wget https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-tiny.cfg -P cfg/
+wget https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/coco.data -P cfg/
+wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights
+```
+
+### 5. darknet.py をプロジェクトにコピー
+darknet.py（Python バインディング）を使って YOLO を Python から呼び出します。
+darknet リポジトリ内にある darknet.py をプロジェクトフォルダにコピーしてください。
+
+---
+
+## ▶️ 実行方法
+以下のコマンドで JetCamCounter を実行できます。
+
+### カメラ入力で実行
+```bash
+python3 jetcam_counter.py
+```
+
+### 動画ファイル入力で実行
+```bash
+python3 jetcam_counter.py input_video.mp4
+```
+
+実行時に生成されるファイル:  
+出力動画: result/<base_name>_<mode>_<タイムスタンプ>.mp4  
+カウントログ: result/<base_name>_<mode>_count_log_<タイムスタンプ>.txt
+
+---
+
+## 💡 今後の展望
+- カウント結果のCSV出力対応
+- Web UI やダッシュボードとの連携
+- クラス別統計表示の強化
+- 夜間・赤外線カメラ対応
