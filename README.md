@@ -11,7 +11,11 @@ JetCamCounter は、NVIDIA Jetson 上で動作するリアルタイム物体検�
 
 ## 📹 動作デモ
 
-[![Watch on YouTube](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID)
+https://github.com/user-attachments/assets/a51f9eac-a9ab-4847-a90a-51b164dc3cf2
+
+- 中央の縦線を横切ったオブジェクトをカウントし、カウント数を左上に表示
+- カメラ映像・動画ファイルの両方に対応
+- 結果は動画ファイルおよびテキストファイルに出力し、後から確認可能
 
 
 ## 🚀 背景と目的
@@ -45,16 +49,11 @@ JetCamCounter では、Jetson のエッジAI性能と YOLOv4-tiny の軽量性�
 
 ## ⚙️ セットアップ手順（Jetson用）
 
-以下は Jetson Orin Nano で確認済みです。
-
 ### 1. Jetson 初期セットアップ
 
-JetPack SDKをインストールし、Ubuntuが起動する状態にしてください。
+以下のページなどを参考に、Jetsonを初期セットアップします。  
+[Getting Started with AI on Jetson Nano](https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+S-RX-02+V2)
 
-```bash
-sudo apt update
-sudo apt upgrade -y
-```
 
 ### 2. Python 依存ライブラリのインストール
 ```bash
